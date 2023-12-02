@@ -338,6 +338,8 @@ function x
 ## Structs/Classes
 ### Rust
 ```rs
+struct TupleStruct(String,i32);
+
 struct Person {
     name: String,
     age: u8,
@@ -350,9 +352,13 @@ impl Person {
             age: age,
         }
     }
+    fn changeName(&mut self,name:String){
+        self.name = name;
+    }
 }
 
-let person = Person::new("Someone",20);
+let mut person = Person::new("Someone",20);
+person.changeName("Noone");
 ```
 ### Go
 ```go
@@ -368,34 +374,57 @@ func newPerson(name string,age uint) *Person {
     }
 }
 
+func (*Person p) changeName(name string) {
+    p.name = name
+}
+
 person := newPerson("Someone",20)
+person.changeName("Noone")
 ```
 ### Typescript(Deno)
 ```ts
 class Person{
     name: string;
     age: number;
+    
     constructor(name:string,age:number){
         this.name = name;
         this.age = age;
     }
+
+    changeName(name:string){
+        this.name = name;
+    }
 }
 
 let person = new Person("Someone",20);
+person.changeName("Noone");
 ```
 ### Zig
 ```zig
 const Person = struct {
     name: []u8,
     age: u8,
-    
-    pub fn init(name:[]u8,age:u8) Person {
-        return Person {
+
+    pub fn init(name: []u8, age: u8) Person {
+        return Person{
             .name = name,
             .age = age,
-        }
+        };
     }
-}
+
+    pub fn changeName(self: *Person, name: []u8) void {
+        self.*.name = name;
+    }
+};
+
+const name1 = "Someone";
+const name2 = "Noone";
+var buffer = [_]u8{0} ** 256;
+buffer[0..name1.len].* = name1.*;
+var person = Person.init(&buffer, 20);
+buffer[0..name2.len].* = name2.*;
+person.changeName(&buffer);
 ```
 ### C
 ```c
@@ -405,73 +434,263 @@ typedef struct {
 } Person;
 
 Person* newPerson(char* name,uint8 age){
-    return &Person{name,age}
+    return &{name,age};
 }
+
+void changeName(Person* p,char* name){
+    p->name = name;
+}
+
+Person* person = newPerson("Someone",20);
+changeName(person);
 ```
 ### Haskell
 ```hs
+data Person = Person
+    { name :: [Char]
+    , age  :: Int 
+    } deriving (Show)
+
+initPerson :: [Char] -> Int -> Person
+initPerson n a = Person { name = n, age = a }
 ```
 ## Enums
 ### Rust
 ```rs
+enum Result<T,E>{
+    Ok(T),
+    Err(E),
+}
+enum Option<T>{
+    Some(T),
+    None,
+}
+enum Colors{
+    Red,
+    Blue,
+    Green,
+}
 ```
-
 ### Go
 ```go
+const (
+    Red = iota
+    Blue
+    Green
+)
 ```
-
 ### Typescript(Deno)
 ```ts
+enum Color {
+    Red,
+    Blue,
+    Green,
+}
 ```
-
 ### Zig
 ```zig
-```
+const Color = enum(u8) {
+    Red,
+    Blue,
+    Green,
+}
 
+const Enum = union(enum) {
+    a: void,
+    b: f32,
+}
+```
 ### C
 ```c
+enum Color {
+    Red,
+    Blue,
+    Green,
+}
 ```
-
 ### Haskell
 ```hs
+data Color = Red | Blue | Green
+     deriving (Show)
 ```
 ## Traits/Interfaces
 ### Rust
 ```rs
-```
+trait PrintInfo {
+    fn print_info(&self);
+}
 
+struct Person {
+    name: String,
+    age: u8,
+}
+
+impl PrintInfo for Person {
+    fn print_info(&self) {
+        println!("Name: {}, Age: {}", self.name, self.age);
+    }
+}
+
+struct Car {
+    model: String,
+    year: u32,
+}
+
+impl PrintInfo for Car {
+    fn print_info(&self) {
+        println!("Model: {}, Year: {}", self.model, self.year);
+    }
+}
+
+fn printPrintable<T:PrintInfo>(printable: &T){
+    printable.print_info();
+}
+//or
+fn printPrintable<T>(printable: &T)
+where 
+    T: PrintInfo
+{
+    printable.print_info();
+}
+//or
+fn printPrintable(printable: Box<&dyn PrintInfo>){
+    printable.print_info();
+}
+```
 ### Go
 ```go
-```
+type PrintInfo interface {
+    print_info()
+}
 
+type Car struct {
+    model string
+    year u32
+}
+
+type Person struct {
+    name string
+    age u8
+}
+
+func (p Person) print_info() {
+    fmt.Printf("Name: %s, Age: %d\n", p.name, p.age)
+}
+
+func (c Car) print_info() {
+    fmt.Printf("Model: %s, Year: %d\n", c.model, c.year)
+}
+
+func printPritable(printable PrintInfo){
+    printable.print_info()
+}
+```
 ### Typescript(Deno)
 ```ts
-```
+interface PrintInfo {
+    print_info();
+}
 
+class Car implements PrintInfo{
+    model:string;
+    year:number;
+
+    print_info(){
+        console.log(`${this.model} ${this.year}`);
+    }
+} 
+
+class Person implements PrintInfo {
+    name:string;
+    age:number;
+
+    print_info(){
+        console.log(`${this.name} ${this.age}`);
+    }
+} 
+
+function printPritable(printable: PrintInfo){
+    printable.print_info();
+}
+```
 ### Zig
 ```zig
-```
+const std = @import("std");
 
-### C
-```c
-```
+const Car = struct {
+    model: []const u8,
+    year: u32,
 
+    pub fn print_info(self: Car) void {
+        std.debug.print("Model: {s}, Year: {d}", .{ self.model, self.year });
+    }
+};
+
+const Person = struct {
+    name: []const u8,
+    age: u8,
+
+    pub fn print_info(self: Person) void {
+        std.debug.print("Name: {s}, Age: {d}", .{ self.name, self.age });
+    }
+};
+
+const PrintInfo = union(enum) {
+    car: Car,
+    person: Person,
+
+    pub fn print_info(self: PrintInfo) void {
+        switch (self) {
+            inline else => |case| case.print_info(),
+        }
+    }
+};
+pub fn main() !void {
+    var car = Car{ .model = "Car", .year = 2002 };
+    printPritable(PrintInfo{ .car = car });
+}
+
+fn printPritable(printable: PrintInfo) void {
+    printable.print_info();
+}
+```
 ### Haskell
 ```hs
+class Printable a where
+    printMe :: a -> String
+
+instance Printable Int where
+    printMe x = show x
+
+instance Printable Char where
+    printMe c = [c]
+
+printTwice :: Printable a => a -> String
+printTwice x = printMe x ++ ", " ++ printMe x
 ```
 ## Borrowing/Pointers
 ### Rust
 ```rs
-```
+let a: i32 = 5;
+let b: &i32 = &a;
+let c: &i32 = &a;
 
+let mut a: i32 = 5;
+let b: &mut i32 = &mut a;
+*b = 7;
+
+let a: i32 = 42;
+let raw_pointer: *const i32 = &a;
+```
 ### Go
 ```go
+var a int = 5;
+var b *int = &a;
+*b = 7;
 ```
-
 ### Typescript(Deno)
 ```ts
 ```
-
 ### Zig
 ```zig
 ```
