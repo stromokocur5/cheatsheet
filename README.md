@@ -89,6 +89,7 @@ void
 null
 type
 anytype
+undefined
 ```
 ### C
 ```c
@@ -301,32 +302,112 @@ const b = switch (a) {
 ```
 ### C
 ```c
-```
+if (value1) {
+} else if (value2) {
+} else {
+}
 
+switch (value) {
+    case 1:
+        printf("\n");
+        break;
+    case 2:
+        printf("\n");
+        break;
+    default:
+        printf("\n");
+        break;
+}
+```
 ### Haskell
 ```hs
+if condition
+        then x
+        else y
+
+    case value of
+        1 -> x
+        _ -> y
+
+function x :: Int -> String
+function x
+    | x < 0     = "Negative value"
+    | x <= 10    = "Between 0 and 10 (inclusive)"
+    | otherwise = "Greater than 10"
 ```
 ## Structs/Classes
 ### Rust
 ```rs
-```
+struct Person {
+    name: String,
+    age: u8,
+}
 
+impl Person {
+    fn new(name:String,age:u8) -> Self {
+        Self{
+            name: name,
+            age: age,
+        }
+    }
+}
+
+let person = Person::new("Someone",20);
+```
 ### Go
 ```go
-```
+type Person struct{
+    name string
+    age uint
+}
 
+func newPerson(name string,age uint) *Person {
+    return &Person{
+        name: name,
+        age: age,
+    }
+}
+
+person := newPerson("Someone",20)
+```
 ### Typescript(Deno)
 ```ts
-```
+class Person{
+    name: string;
+    age: number;
+    constructor(name:string,age:number){
+        this.name = name;
+        this.age = age;
+    }
+}
 
+let person = new Person("Someone",20);
+```
 ### Zig
 ```zig
+const Person = struct {
+    name: []u8,
+    age: u8,
+    
+    pub fn init(name:[]u8,age:u8) Person {
+        return Person {
+            .name = name,
+            .age = age,
+        }
+    }
+}
 ```
-
 ### C
 ```c
-```
+typedef struct {
+    char* name;
+    uint8 age;
+} Person;
 
+Person* newPerson(char* name,uint8 age){
+    return &Person{name,age}
+}
+```
 ### Haskell
 ```hs
 ```
