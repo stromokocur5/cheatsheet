@@ -26,6 +26,7 @@ const a:i32 = 5;
 ### C
 ```c
 int a = 5;
+const int a = 5;
 ```
 ### Haskell
 ```hs
@@ -95,6 +96,7 @@ undefined
 ```c
 int
 double
+float
 unsigned int
 char
 long
@@ -374,7 +376,7 @@ func newPerson(name string,age uint) *Person {
     }
 }
 
-func (*Person p) changeName(name string) {
+func (p *Person) changeName(name string) {
     p.name = name
 }
 
@@ -688,139 +690,617 @@ var a int = 5;
 var b *int = &a;
 *b = 7;
 ```
-### Typescript(Deno)
-```ts
-```
 ### Zig
 ```zig
+var a: i32 = 5;
+var b: *i32 = &a;
+b.* = 7;
 ```
-
 ### C
 ```c
-```
-
-### Haskell
-```hs
+int a = 5;
+int* b = &a;
+*b = 7;
 ```
 ## Error handling
 ### Rust
 ```rs
-```
 
+let option: Option<i32> = Some(5);
+let option: Option<i32> = None;
+let result: Result<i32,String> = Ok(5);
+let result: Result<i32,String> = Err("err".to_string());
+
+if let Some(s) = option{}
+       ----
+       None
+
+if let Ok(o) = result{}
+       ----
+       Err(e)
+
+match option{
+    Some(s) => s,
+    _ => panic!(),
+}
+
+match result{
+    Ok(o) => o,
+    _ => panic!(),
+}
+option.unwrap();
+result.unwrap();
+result?;
+```
 ### Go
 ```go
-```
+func strOrErr(name string) (r string, err error){
+    if name != "Someone" {
+        return "", errors.New("name not allowed")
+    }
+    return ("Someone",nil)
+}
 
+r,err := strOrErr("Someone")
+if err != nil {}
+
+if _,err := strOrErr("Someone"); err != nil {}
+
+
+func CopyFile(dstName, srcName string) (written int64, err error) {
+    src, err := os.Open(srcName)
+    if err != nil {
+        return
+    }
+    defer src.Close()
+
+    dst, err := os.Create(dstName)
+    if err != nil {
+        return
+    }
+    defer dst.Close()
+
+    return io.Copy(dst, src)
+}
+```
 ### Typescript(Deno)
 ```ts
+try {
+  const data = await Deno.readFile("nonexistent-file.txt");
+  console.log(data);
+} catch (error) {
+  console.error("Error reading file:", error);
+}
 ```
-
 ### Zig
 ```zig
-```
+fn doAThing(str: []u8) !void {
+    const number = try parseU64(str, 10);
+}
+//or
+fn doAThing(str: []u8) !void {
+    const number = parseU64(str, 10) catch |err| return err;
+}
 
+fn doAnotherThing(str: []u8) error{InvaidChar}!void {
+    if (parseU64(str, 10)) |number| {
+        doSomethingWithNumber(number);
+    } else |err| switch (err) {
+        error.Overflow => {
+        },
+        else => |leftover_err| return leftover_err,
+    }
+}
+```
 ### C
 ```c
+int divide(int a, int b, int* result) {
+    if (b == 0) {
+        return 1;
+    }
+    *result = a / b;
+    return 0;
+}
+    int a = 10, b = 2, result;
+    int errorCode = divide(a, b, &result);
+    if (errorCode != 0) {
+        printf("Error: Division by zero\n");
+        exit(1);
+    }
+    printf("%d / %d = %d\n", a, b, result);
+}
 ```
-
 ### Haskell
 ```hs
+data Maybe a = Nothing | Just a
+data Either a b = Left a | Right b
+
+let result = divide 10 2
+    case result of
+        Just x -> putStrLn $ "Result: " ++ show x
+        Nothing -> putStrLn "Error: Division by zero"
+
+let result = divide 10 2
+    case result of
+        Right x -> putStrLn $ "Result: " ++ show x
+        Left err -> putStrLn $ "Error: " ++ err
 ```
 ## Concurrency
 ### Rust
 ```rs
-```
+fn main() {
+    let (tx, rx) = mpsc::channel();
 
+    thread::spawn(move || {
+        for i in 0..5 {
+            tx.send(i).expect("Send error");
+        }
+    });
+
+    for received in rx {
+        println!("Received: {}", received);
+    }
+}
+
+
+//or
+
+fn main() {
+    let counter = Arc::new(Mutex::new(0));
+
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+
+//or
+
+async fn worker(id: usize) {
+    println!("Worker {} is starting.", id);
+    
+    sleep(Duration::from_secs(2)).await;
+    
+    println!("Worker {} is done.", id);
+}
+
+#[tokio::main]
+async fn main() {
+    let mut handles = vec![];
+    for i in 0..5 {
+        let handle = tokio::spawn(worker(i));
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.await.expect("Failed to join worker thread");
+    }
+
+    println!("All workers are done!");
+}
+
+//or
+
+#[tokio::main]
+async fn main() {
+    let (tx, mut rx) = mpsc::channel(32);
+
+    tokio::spawn(async move {
+        for i in 0..5 {
+            tokio::time::sleep(Duration::from_secs(1)).await;
+            tx.send(i).await.expect("Send error");
+        }
+    });
+
+    while let Some(received) = rx.recv().await {
+        println!("Received: {}", received);
+    }
+}
+```
 ### Go
 ```go
-```
+func f(n int) {
+  for i := 0; i < 10; i++ {
+    fmt.Println(n, ":", i)
+    amt := time.Duration(rand.Intn(250))
+    time.Sleep(time.Millisecond * amt)
+  }
+}
 
+for i := 0; i < 10; i++ {
+    go f(i)
+}
+
+//or 
+
+func pinger(c chan string) {
+  for i := 0; ; i++ {
+    c <- "ping"
+  }
+}
+
+func ponger(c chan string) {
+  for i := 0; ; i++ {
+    c <- "pong"
+  }
+}
+
+func printer(c chan string) {
+  for {
+    msg := <- c
+    fmt.Println(msg)
+    time.Sleep(time.Second * 1)
+  }
+}
+
+var c chan string = make(chan string)
+go pinger(c)
+go ponger(c)
+go printer(c)
+```
 ### Typescript(Deno)
 ```ts
-```
+async function fetchData(url: string) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
 
+const url1 = "https://jsonplaceholder.typicode.com/todos/1";
+const url2 = "https://jsonplaceholder.typicode.com/todos/2";
+
+const promise1 = fetchData(url1);
+const promise2 = fetchData(url2);
+
+const result1 = await promise1;
+const result2 = await promise2;
+
+console.log("Result from URL 1:", result1);
+console.log("Result from URL 2:", result2);
+```
 ### Zig
 ```zig
-```
+const net = @import("std").net;
 
+pub const io_mode = .evented;
+
+pub fn main() !void {
+    const addr = try net.Address.parseIp("127.0.0.1", 7000);
+
+    var sendFrame = async send_message(addr);
+    // ... do something else while
+    //     the message is being sent ...
+    try await sendFrame;
+}
+
+// Note how the function definition doesn't require any static
+// `async` marking. The compiler can deduce when a function is
+// async based on its usage of `await`.
+fn send_message(addr: net.Address) !void {
+    // We could also delay `await`ing for the connection
+    // to be established, if we had something else we
+    // wanted to do in the meantime.
+    var socket = try net.tcpConnectToAddress(addr);
+    defer socket.close();
+
+    // Using both await and async in the same statement
+    // is unnecessary and non-idiomatic, but it shows
+    // what's happening behind the scenes when `io_mode`
+    // is `.evented`.
+    _ = try await async socket.write("Hello World!\n");
+}
+```
 ### C
 ```c
-```
+#include <stdio.h>
+#include <pthread.h>
 
+void* myAsyncFunction(void* arg) {
+    printf("Async function is running\n");
+    return NULL;
+}
+
+int main() {
+    pthread_t thread;
+
+    // Create a thread for asynchronous-like behavior
+    if (pthread_create(&thread, NULL, myAsyncFunction, NULL) != 0) {
+        fprintf(stderr, "Error creating thread\n");
+        return 1;
+    }
+
+    if (pthread_join(thread, NULL) != 0) {
+        fprintf(stderr, "Error joining thread\n");
+        return 1;
+    }
+
+    printf("Main function is continuing\n");
+
+    return 0;
+}
+```
 ### Haskell
 ```hs
+import Control.Concurrent
+
+main :: IO ()
+main = do
+    putStrLn "Start"
+
+    -- Create a new thread
+    tid <- forkIO $ do
+        putStrLn "Async operation"
+        threadDelay 2000000 -- Simulate a delay
+
+    -- Continue with main thread
+    putStrLn "Main thread"
+
+    -- Wait for the asynchronous thread to finish
+    threadDelay 3000000
+    putStrLn "End"
+
+--or
+
+import Control.Concurrent
+import Control.Concurrent.Async
+
+main :: IO ()
+main = do
+    putStrLn "Start"
+
+    -- Start an asynchronous operation
+    a <- async $ do
+        putStrLn "Async operation"
+        threadDelay 2000000
+
+    -- Continue with main thread
+    putStrLn "Main thread"
+
+    -- Wait for the asynchronous task to finish
+    wait a
+
+    putStrLn "End"
 ```
 ## Modules
 ### Rust
 ```rs
-```
+// In main.rs or lib.rs
+mod my_module;
+use my_module::public_function;
 
+fn main() {
+    my_module::public_function();
+    public_function();
+    // my_module::private_function(); // This would be an error since it's private
+}
+
+// In my_module.rs
+pub fn public_function() {
+    println!("Public function");
+}
+
+fn private_function() {
+    println!("Private function");
+}
+```
 ### Go
 ```go
-```
+// In file main.go
+package main;
+import (
+    "fmt"
+    "feature"
+)
 
+func main() {
+   feature.ExportedFunction()
+}
+
+// In file feature.go
+package feature;
+
+// ExportedFunction is visible outside the package
+func ExportedFunction() {
+    // Function implementation
+}
+
+// nonExportedFunction is only visible within the package
+func nonExportedFunction() {
+    // Function implementation
+}
+```
 ### Typescript(Deno)
 ```ts
-```
+//In file main.ts
+import PI1 from "feature.ts";
+import {PI2} from "feature.ts";
+import { someFunction } from "https://example.com/some-module.ts";
 
+//In file feature.ts
+export default const PI1 = 3.14;
+export const PI2 = 3.13
+```
 ### Zig
 ```zig
-```
+// mymodule.zig
+const std = @import("std");
 
+pub fn myFunction() void {
+    std.debug.print("Hello from myFunction!\n", .{});
+}
+
+// main.zig
+const mymodule = @import("mymodule.zig");
+
+pub fn main() void {
+    mymodule.myFunction();
+}
+```
 ### C
 ```c
-```
+// module.h
 
+// Function declaration
+int add(int a, int b);
+
+// module.c
+#include "module.h"
+
+// Function definition
+int add(int a, int b) {
+    return a + b;
+}
+
+// main.c
+#include <stdio.h>
+#include "module.h"
+
+int main() {
+    int result = add(3, 4);
+    printf("Result: %d\n", result);
+
+    return 0;
+}
+```
 ### Haskell
 ```hs
+-- ModuleExample.hs
+
+module ModuleExample
+    ( add       -- Exporting the 'add' function
+    , subtract  -- Exporting the 'subtract' function
+    ) where
+
+-- Function Definitions
+add :: Int -> Int -> Int
+add a b = a + b
+
+subtract :: Int -> Int -> Int
+subtract a b = a - b
+
+-- Main.hs
+
+import ModuleExample (add, subtract)
+
+main :: IO ()
+main = do
+    let result1 = add 3 4
+        result2 = subtract 7 2
+
+    putStrLn $ "Addition Result: " ++ show result1
+    putStrLn $ "Subtraction Result: " ++ show result2
 ```
 ## Type casting
 ### Rust
 ```rs
-```
+let integer_number: i32 = 42;
+let float_number: f64 = integer_number as f64;
 
+//or
+
+struct MyStruct {
+    value: i32,
+}
+
+impl From<i32> for MyStruct {
+    fn from(value: i32) -> Self {
+        MyStruct { value }
+    }
+}
+
+let my_struct: MyStruct = 42.into();
+```
 ### Go
 ```go
+var x int = 42
+var y float64 = float64(x)
 ```
-
 ### Typescript(Deno)
 ```ts
-```
+let x: number = 42;
+let y: number = Number(x);
 
+let str: string = "123";
+let num: number = parseInt(str, 10);
+```
 ### Zig
 ```zig
+var a: u8 = 1;
+var b = @as(u16, a);
 ```
-
 ### C
 ```c
-```
-
-### Haskell
-```hs
+double x = 20.5;
+int y;
+y = (int)x;
 ```
 ## Generics
 ### Rust
 ```rs
+fn find_larger<T>(a: T, b: T) -> T
+where
+    T: PartialOrd,
+{
+    if a >= b {
+        a
+    } else {
+        b
+    }
+}
 ```
-
 ### Go
 ```go
+func findLarger[T any](a, b T) T {
+    if a.(int) > b.(int) {
+        return a
+    }
+    return b
+}
 ```
-
 ### Typescript(Deno)
 ```ts
+function findLarger<T>(a: T, b: T): T {
+    return a > b ? a : b;
+}
 ```
-
 ### Zig
 ```zig
+fn findLarger(comptime T: type, a: T, b: T) T {
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
 ```
-
-### C
-```c
-```
-
 ### Haskell
 ```hs
+-- A type class for types that can be compared
+class Comparable a where
+    greater :: a -> a -> a
+
+-- Instance of Comparable for Int
+instance Comparable Int where
+    greater a b = if a > b then a else b
+
+-- Instance of Comparable for Double
+instance Comparable Double where
+    greater a b = if a > b then a else b
+
+-- Generic function using the Comparable type class
+findLarger :: Comparable a => a -> a -> a
+findLarger a b = greater a b
 ```
 
 # Configuration
