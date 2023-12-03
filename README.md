@@ -1,11 +1,11 @@
 Table of contents:
 1. [Programming](#programming)
    - [Rust](#rust)
-   - [Go](#go-lang)
-   - [Typescript(Deno)](#deno)
+   - [Go](#go)
+   - [Typescript(Deno)](#typescript-deno)
    - [Zig](#zig)
    - [Haskell](#haskell)
-   - [C](#c-lang)
+   - [C](#c)
 2. [Configuration](#configuration)
    - [Docker](#docker)
    - [Kubernetes](#kubernetes)
@@ -13,7 +13,7 @@ Table of contents:
    - [Logging](#logging)
    - [CI/CD](#ci-cd)
 
-# Programming (#programming)
+# Programming 
 ## Rust
 ### Variables
 ```rs
@@ -346,7 +346,7 @@ fn longer_string<'a>(s1: &'a str, s2: &'a str) -> &'a str {
     }
 }
 ```
-## Go (#go-lang)
+## Go 
 ### Variables
 ```go
 a := 5 
@@ -585,7 +585,7 @@ func findLarger[T any](a, b T) T {
     return b
 }
 ```
-## Typescript(Deno) (#deno)
+## Typescript(Deno) 
 ### Variables
 ```ts
 let a = 5;
@@ -749,7 +749,7 @@ function findLarger<T>(a: T, b: T): T {
     return a > b ? a : b;
 }
 ```
-## Zig (#zig)
+## Zig 
 ### Variables
 ```zig
 var a: i32 = 5;
@@ -981,7 +981,7 @@ fn findLarger(comptime T: type, a: T, b: T) T {
     }
 }
 ```
-## Haskell (#haskell)
+## Haskell 
 ### Variables
 ```hs
 let a = 5
@@ -1144,7 +1144,7 @@ main = do
     putStrLn $ "Addition Result: " ++ show result1
     putStrLn $ "Subtraction Result: " ++ show result2
 ```
-## C (#c-lang)
+## C 
 ### Variables
 ```c
 int a = 5;
@@ -1306,14 +1306,14 @@ double x = 20.5;
 int y;
 y = (int)x;
 ```
-# Configuration (#configuration)
+# Configuration 
 
-## Docker (#docker)
+## Docker 
 
-## Kubernetes (#kubernetes)
+## Kubernetes 
 
-## Ansible (#ansible)
+## Ansible 
 
-## Logging (#logging)
+## Logging 
 
-## CI/CD (#ci-cd)
+## CI/CD 
