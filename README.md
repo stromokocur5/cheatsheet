@@ -1135,7 +1135,6 @@ main = do
 int a = 5;
 const int a = 5;
 ```
-## C
 ### Types
 ```c
 int
@@ -1147,14 +1146,12 @@ long
 unsigned long
 null
 ```
-## C
 ### Functions
 ```c
 int add(int a, int b) {
     return a + b;
 }
 ```
-## C
 ### Loops
 ```c
 for (int i=0;i<=100;i+=1){}
@@ -1164,7 +1161,6 @@ while(true){}
 break;
 continue;
 ```
-## C
 ### Control flow
 ```c
 if (value1) {
@@ -1184,7 +1180,6 @@ switch (value) {
         break;
 }
 ```
-## C
 ### Structs/Classes
 ```c
 typedef struct {
@@ -1203,7 +1198,6 @@ void changeName(Person* p,char* name){
 Person* person = newPerson("Someone",20);
 changeName(person);
 ```
-## C
 ### Enums
 ```c
 enum Color {
@@ -1212,14 +1206,12 @@ enum Color {
     Green,
 }
 ```
-## C
 ### Pointers
 ```c
 int a = 5;
 int* b = &a;
 *b = 7;
 ```
-## C
 ### Error handling
 ```c
 int divide(int a, int b, int* result) {
@@ -1238,7 +1230,6 @@ int divide(int a, int b, int* result) {
     printf("%d / %d = %d\n", a, b, result);
 }
 ```
-## C
 ### Concurrency
 ```c
 #include <stdio.h>
@@ -1268,7 +1259,6 @@ int main() {
     return 0;
 }
 ```
-## C
 ### Modules
 ```c
 // module.h
@@ -1295,7 +1285,6 @@ int main() {
     return 0;
 }
 ```
-## C
 ### Type casting
 ```c
 double x = 20.5;
