@@ -14,7 +14,7 @@ Table of contents:
    - [CI/CD](#ci-cd)
 
 # Programming (#programming)
-## Rust (#rust)
+## Rust
 ### Variables
 ```rs
 let a = 5;
