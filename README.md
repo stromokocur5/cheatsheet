@@ -1374,7 +1374,7 @@ volumes:
 ## Kubernetes 
 
 ## Ansible 
-### Playbooks
+### Playbook
 ```yml
 ---
 - name: Comprehensive Ansible Playbook
