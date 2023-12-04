@@ -1195,7 +1195,7 @@ switch (value) {
         break;
 }
 ```
-### Structs/Classes
+### Structs
 ```c
 typedef struct {
     char* name;
