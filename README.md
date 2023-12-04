@@ -6,12 +6,13 @@ Table of contents:
    - [Zig](#zig)
    - [Haskell](#haskell)
    - [C](#c)
-2. [Configuration](#configuration)
+2. [Devops](#devops)
    - [Docker](#docker)
    - [Kubernetes](#kubernetes)
    - [Ansible](#ansible)
    - [Logging](#logging)
    - [CI/CD](#ci-cd)
+   - [Nginx](#nginx)
 
 # Programming 
 ## Rust
@@ -363,6 +364,7 @@ string
 error
 rune
 [n]T
+map[K]V
 nil
 any
 ```
@@ -762,6 +764,7 @@ u8 u32 u64 u128 usize
 f32 f64  
 bool
 void
+[]T
 ?T
 !T
 null
@@ -1306,14 +1309,220 @@ double x = 20.5;
 int y;
 y = (int)x;
 ```
-# Configuration 
+# Devops 
 
 ## Docker 
+### Dockerfile
+```dockerfile
+FROM image:version
+RUN dnf update
+USER user
+WORKDIR /data
+COPY . .
+ENV var=5
+CMD ["echo",${var}]
+```
+### Docker compose file
+```docker-compose
+version: 3.8
 
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    environment:
+      - NGINX_ENV=production
+    networks:
+      - frontend
+      - backend
+
+  app:
+    image: myapp:latest
+    environment:
+      - APP_ENV=production
+    env_file: 
+        - .env
+    volumes:
+      - ./app:/app
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=mydatabase
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  mysql_data:
+```
 ## Kubernetes 
 
 ## Ansible 
+### Playbooks
+```yml
+---
+- name: Comprehensive Ansible Playbook
+  hosts: all
 
+  vars:
+    common_variable: "This is a common variable"
+
+  tasks:
+    - name: Ensure packages are installed
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - nginx
+        - php
+      tags:
+        - install
+
+    - name: Copy configuration files
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+      notify: Restart Nginx
+      tags:
+        - configure
+
+    - name: Manage files and directories
+      file:
+        path: "/tmp/my_file.txt"
+        state: touch
+
+    - name: Execute a command
+      command: echo "Hello, Ansible!"
+
+    - name: Manage users
+      user:
+        name: myuser
+        state: present
+        shell: /bin/bash
+        groups: users
+        append: yes
+
+    - name: Manage groups
+      group:
+        name: mygroup
+        state: present
+
+    - name: Install Python package
+      pip:
+        name: requests
+
+    - name: Manage services
+      service:
+        name: nginx
+        state: restarted
+
+    - name: Manage systemd units
+      systemd:
+        name: myservice
+        state: started
+
+    - name: Manage cron jobs
+      cron:
+        name: "My Cron Job"
+        minute: "0"
+        hour: "1"
+        job: "/path/to/my/script.sh"
+
+    - name: Fetch files from remote hosts
+      fetch:
+        src: "/path/to/remote/file.txt"
+        dest: "/tmp/"
+
+    - name: Execute a script
+      script:
+        src: scripts/my_script.sh
+
+    - name: Make HTTP request
+      uri:
+        url: "https://example.com/api"
+        method: GET
+
+    - name: Add or remove a line from a file
+      lineinfile:
+        path: "/path/to/file.txt"
+        line: "my_line"
+        state: present
+
+    - name: Set and register a fact
+      set_fact:
+        my_fact: "This is a fact"
+      register: fact_result
+
+    - name: Debug information
+      debug:
+        var: fact_result
+      when: ansible_distribution == 'CentOS'
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+```
+### Inventory
+```yml
+web_servers:
+  hosts:
+    webserver[1:3]:
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: /path/to/private_key.pem
+      environment: production
+      my_variable: web_var
+
+    webserver2:
+      ansible_host: 192.168.1.102
+      ansible_user: centos
+      ansible_ssh_private_key_file: /path/to/private_key.pem
+      environment: staging
+      my_variable: web_var
+
+  vars:
+    common_variable: value
+
+db_servers:
+  hosts:
+    dbserver1:
+      ansible_host: 192.168.1.103
+      ansible_user: root
+      ansible_ssh_private_key_file: /path/to/private_key.pem
+      environment: production
+      my_variable: db_var
+
+    dbserver2:
+      ansible_host: 192.168.1.104
+      ansible_user: root
+      ansible_ssh_private_key_file: /path/to/private_key.pem
+      environment: development
+      my_variable: db_var
+
+  vars:
+    common_variable: value
+```
 ## Logging 
 
 ## CI/CD 
+
+## Firewalld
+
+## Nginx
