@@ -11,7 +11,9 @@ Table of contents:
    - [Kubernetes](#kubernetes)
    - [Ansible](#ansible)
    - [CI/CD](#ci-cd)
+   - [Firewalld](#firewalld)
    - [Nginx](#nginx)
+   - [Opentofu(Terraform)](#opentofu-terraform)
 
 # Programming
 <https://cheat.sh/>
@@ -593,6 +595,7 @@ func findLarger[T any](a, b T) T {
 ## Typescript(Deno) 
 <https://docs.deno.com/runtime/manual>
 <https://deno.land/std>
+<https://fresh.deno.dev/docs/>
 ### Variables
 ```ts
 let a = 5;
@@ -1319,6 +1322,9 @@ y = (int)x;
 ```
 # Devops 
 
+## Postgres
+<https://www.postgresql.org/docs/current/index.html>
+
 ## Docker 
 <https://docs.docker.com/>
 ### Dockerfile
@@ -1332,14 +1338,14 @@ ENV var=5
 CMD ["echo",${var}]
 ```
 ### Docker compose file
-```docker-compose
+```yml
 version: 3.8
 
 services:
   web:
     image: nginx:latest
     ports:
-      - "8080:80"
+      - 8080:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
     environment:
@@ -1350,6 +1356,7 @@ services:
 
   app:
     image: myapp:latest
+    restart: always
     environment:
       - APP_ENV=production
     env_file: 
@@ -1534,8 +1541,7 @@ db_servers:
 ### Gitlab CI
 <https://docs.gitlab.com/ee/ci/>
 
-## Firewall
-### Firewalld
+## Firewalld
 <https://firewalld.org/documentation/>
 
 ## Nginx
