@@ -10,7 +10,6 @@ Table of contents:
    - [Docker](#docker)
    - [Kubernetes](#kubernetes)
    - [Ansible](#ansible)
-   - [Logging](#logging)
    - [CI/CD](#ci-cd)
    - [Nginx](#nginx)
 
