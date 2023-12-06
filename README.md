@@ -1541,5 +1541,5 @@ db_servers:
 ## Nginx
 <https://docs.nginx.com/>
 
-##OpenTofu(Terraform)
+## OpenTofu(Terraform)
 <https://opentofu.org/docs>
