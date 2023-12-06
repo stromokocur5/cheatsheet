@@ -14,8 +14,11 @@ Table of contents:
    - [CI/CD](#ci-cd)
    - [Nginx](#nginx)
 
-# Programming 
+# Programming
+<https://cheat.sh/>
 ## Rust
+<https://docs.rs/>
+<https://lib.rs/>
 ### Variables
 ```rs
 let a = 5;
@@ -348,6 +351,7 @@ fn longer_string<'a>(s1: &'a str, s2: &'a str) -> &'a str {
 }
 ```
 ## Go 
+<https://go.dev/doc/>
 ### Variables
 ```go
 a := 5 
@@ -588,6 +592,8 @@ func findLarger[T any](a, b T) T {
 }
 ```
 ## Typescript(Deno) 
+<https://docs.deno.com/runtime/manual>
+<https://deno.land/std>
 ### Variables
 ```ts
 let a = 5;
@@ -752,6 +758,7 @@ function findLarger<T>(a: T, b: T): T {
 }
 ```
 ## Zig 
+<https://ziglang.org/documentation/>
 ### Variables
 ```zig
 var a: i32 = 5;
@@ -985,6 +992,7 @@ fn findLarger(comptime T: type, a: T, b: T) T {
 }
 ```
 ## Haskell 
+<https://www.haskell.org/documentation/>
 ### Variables
 ```hs
 let a = 5
@@ -1148,6 +1156,7 @@ main = do
     putStrLn $ "Subtraction Result: " ++ show result2
 ```
 ## C 
+<https://devdocs.io/c/>
 ### Variables
 ```c
 int a = 5;
@@ -1312,6 +1321,7 @@ y = (int)x;
 # Devops 
 
 ## Docker 
+<https://docs.docker.com/>
 ### Dockerfile
 ```dockerfile
 FROM image:version
@@ -1372,8 +1382,10 @@ volumes:
   mysql_data:
 ```
 ## Kubernetes 
+<https://kubernetes.io/docs/home/>
 
 ## Ansible 
+<https://docs.ansible.com/ansible/>
 ### Playbook
 ```yml
 ---
@@ -1519,10 +1531,16 @@ db_servers:
   vars:
     common_variable: value
 ```
-## Logging 
-
 ## CI/CD 
+### Gitlab CI
+<https://docs.gitlab.com/ee/ci/>
 
-## Firewalld
+## Firewall
+### Firewalld
+<https://firewalld.org/documentation/>
 
 ## Nginx
+<https://docs.nginx.com/>
+
+##OpenTofu(Terraform)
+<https://opentofu.org/docs>
