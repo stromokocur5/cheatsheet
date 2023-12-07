@@ -1,4 +1,3 @@
-Table of contents:
 1. [Programming](#programming)
    - [Rust](#rust)
    - [Go](#go)
