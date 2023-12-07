@@ -613,6 +613,7 @@ T[]
 ?T
 null
 any
+undefined
 ```
 ### Functions
 ```ts
@@ -1391,7 +1392,166 @@ volumes:
 ```
 ## Kubernetes 
 <https://kubernetes.io/docs/home/>
-
+### Deployments
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: your-app
+  namespace: your-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: your-app
+  template:
+    metadata:
+      labels:
+        app: your-app
+    spec:
+      containers:
+      - name: your-app-container
+        image: your-docker-image:latest
+        ports:
+        - containerPort: 80
+```
+### Service
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: your-app-service
+spec:
+  selector:
+    app: your-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+```
+### Ingress
+```yml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: your-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: your-app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: your-app-service
+            port:
+              number: 80
+```
+### ConfigMap
+```yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: your-config-map
+data:
+  key1: value1
+  key2: value2
+```
+### Secret
+```yml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: your-secret
+type: Opaque
+data:
+  username: base64encodedusername
+  password: base64encodedpassword
+```
+### PersistentVolume
+```yml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: your-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /path/on/host
+```
+### PersistentVolumeClaim
+```yml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: your-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+```
+### Job
+```yml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: your-job
+spec:
+  template:
+    metadata:
+      name: your-job-pod
+    spec:
+      containers:
+      - name: your-job-container
+        image: your-docker-image:latest
+  backoffLimit: 5
+```
+### CronJob
+```yml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: your-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: your-cronjob-container
+            image: your-docker-image:latest
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+```
+### Role
+```yml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: your-role
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+```
+### Namespace
+```yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: your-namespace
+```
 ## Ansible 
 <https://docs.ansible.com/ansible/>
 ### Playbook
