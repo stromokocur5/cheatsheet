@@ -11,6 +11,8 @@ Table of contents:
    - [Kubernetes](#kubernetes)
    - [Ansible](#ansible)
    - [CI/CD](#ci-cd)
+   - [Prometheus](#prometheus)
+   - [Grafana](#grafana)
    - [Firewalld](#firewalld)
    - [Nginx](#nginx)
    - [Opentofu(Terraform)](#opentofu-terraform)
@@ -1541,6 +1543,12 @@ db_servers:
 ## CI/CD 
 ### Gitlab CI
 <https://docs.gitlab.com/ee/ci/>
+
+## Prometheus
+<https://prometheus.io/docs/>
+
+## Grafana
+<https://grafana.com/docs/grafana/>
 
 ## Firewalld
 <https://firewalld.org/documentation/>
