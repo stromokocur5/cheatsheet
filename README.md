@@ -14,7 +14,8 @@ Table of contents:
    - [Firewalld](#firewalld)
    - [Nginx](#nginx)
    - [Opentofu(Terraform)](#opentofu-terraform)
-
+3. [Regex](#regex)
+4. [Fresh(Deno web framework)](#fresh-deno-web-framework)
 # Programming
 <https://cheat.sh/>
 ## Rust
@@ -353,6 +354,7 @@ fn longer_string<'a>(s1: &'a str, s2: &'a str) -> &'a str {
 ```
 ## Go 
 <https://go.dev/doc/>
+<https://gobyexample.com/>
 ### Variables
 ```go
 a := 5 
@@ -595,7 +597,6 @@ func findLarger[T any](a, b T) T {
 ## Typescript(Deno) 
 <https://docs.deno.com/runtime/manual>
 <https://deno.land/std>
-<https://fresh.deno.dev/docs/>
 ### Variables
 ```ts
 let a = 5;
@@ -1552,3 +1553,6 @@ db_servers:
 
 # Regex
 <https://regexr.com/>
+
+# Fresh(Deno web framework)
+<https://fresh.deno.dev/docs/>
