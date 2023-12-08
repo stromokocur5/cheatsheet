@@ -1505,16 +1505,16 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: your-job
+  name: pi
 spec:
   template:
-    metadata:
-      name: your-job-pod
     spec:
       containers:
-      - name: your-job-container
-        image: your-docker-image:latest
-  backoffLimit: 5
+      - name: pi
+        image: perl:5.34.0
+        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      restartPolicy: Never
+  backoffLimit: 4
 ```
 ### CronJob
 ```yml
