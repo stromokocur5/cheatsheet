@@ -489,7 +489,7 @@ func strOrErr(name string) (r string, err error){
     if name != "Someone" {
         return "", errors.New("name not allowed")
     }
-    return ("Someone",nil)
+    return "Someone",nil
 }
 
 r,err := strOrErr("Someone")
