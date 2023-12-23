@@ -2079,5 +2079,77 @@ http {
 | `[^0-9a-zA-Z]` | Matches any character that is not a digit or a letter |
 | `(.*)\s(.*)` | Matches two words separated by one or more whitespace characters |
 | `(.*)\1` | Matches an exact repetition of the first word |
+# *nix
+## Commands
+```sh
+cd
+expr
+touch
+head
+tail
+type
+dd
+sudo/doas
+sort
+diff
+whoami
+mount
+less
+pwd
+w
+ls
+mv
+cp
+mkdir
+rmdir
+rm
+man
+useradd
+userdel
+usermod
+groupadd
+groupdel
+groupmod
+groups
+passwd
+cat
+grep
+sed
+tee
+awk
+ps
+top
+df
+du
+fdisk
+parted
+mkfs
+tar
+xargs
+chmod
+chown
+ip
+history
+hostname
+systemctl
+curl
+rsync
+ssh
+kill
+pkill
+find
+echo
+su
+seq
+wc
+
+tee lol <<EOF 
+    lol 
+EOF
+
+for i in $(seq 1 4);do echo $i;done
+
+[[ 1 < 2]] && echo 1 || echo 2 
+```
 # Fresh(Deno web framework)
 <https://fresh.deno.dev/docs/>
