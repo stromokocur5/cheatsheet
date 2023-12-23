@@ -1327,16 +1327,109 @@ y = (int)x;
 
 ## Postgres
 <https://www.postgresql.org/docs/current/index.html>
+### General Commands
+```sql
+\l: List all databases
+\l+: List all databases and their sizes
+\du: List all users
+\conninfo: Display connection information
+\?: Display help for PostgreSQL commands
+\h <command>: Display help for a specific command
+\g: Execute the previous query
+\q: Quit PostgreSQL
+```
+### Data Types
+| Data Type | Description | Example |
+|---|---|---|
+| Boolean | True or false values | `BOOLEAN` |
+| CHAR, VARCHAR, TEXT | Fixed-length or variable-length character strings | `CHAR(255)`, `VARCHAR(255)`, `TEXT` |
+| NUMERIC | Decimal numbers with precision and scale | `NUMERIC(10,2)` |
+| Integer | Whole numbers | `INTEGER` |
+| SERIAL | Automatically incrementing integer values | `SERIAL` |
+| DATE | Date values | `DATE` |
+| TIMESTAMP | Date and time values | `TIMESTAMP` |
+| Interval | Time duration values | `INTERVAL` |
+### Creating and Managing Tables
+```sql
+CREATE TABLE <table_name> (
+  <column1_name> <data_type>,
+  <column2_name> <data_type>,
+  ...
+);
 
+ALTER TABLE <table_name>
+ADD <new_column_name> <data_type>;
+
+ALTER TABLE <table_name>
+DROP COLUMN <column_name>;
+
+DESCRIBE <table_name>;
+```
+### Inserting and Selecting Data
+```sql
+INSERT INTO <table_name> (
+  <column1_name>,
+  <column2_name>,
+  ...
+)
+VALUES (
+  <value1>,
+  <value2>,
+  ...
+);
+
+SELECT * FROM <table_name>;
+
+SELECT <column1_name>, <column2_name>
+FROM <table_name>
+WHERE <condition>;
+
+SELECT * FROM <table_name>
+ORDER BY <column_name> ASC/DESC;
+```
+### Filtering Data
+```sql
+WHERE <column_name> = <value>;
+
+WHERE <column_name> IN (<value1>, <value2>, ...);
+
+WHERE <column_name> BETWEEN <value1> AND <value2>;
+
+WHERE <column_name> LIKE '%<pattern>%';
+```
+### Aggregating Data
+```sql
+SELECT COUNT(*) FROM <table_name>;
+
+SELECT SUM(<column_name>) FROM <table_name>;
+
+SELECT AVG(<column_name>) FROM <table_name>;
+
+SELECT MIN(<column_name>), MAX(<column_name>) FROM <table_name>;
+```
+### Connecting to PostgreSQL
+```sql
+psql -h <hostname> -p <port> -U <username> -d <database>
+```
+### Navigating Database Objects
+
+```sql
+\d <table_name>: Describe the table structure
+\d+ <table_name>: Describe the table structure in detail
+\d schema_name.table_name: Describe the table structure in a specific schema
+```
 ## Docker 
 <https://docs.docker.com/>
 ### Dockerfile
 ```dockerfile
-FROM image:version
+FROM image:version AS builder
 RUN dnf update
 USER user
-WORKDIR /data
+WORKDIR /app
 COPY . .
+
+FROM image:version
+COPY --from=builder /app /app
 ENV var=5
 CMD ["echo",${var}]
 ```
@@ -1775,7 +1868,82 @@ end-to-end-tests:
 
 ## Firewalld
 <https://firewalld.org/documentation/>
-
+### Check the status of Firewalld
+    ```bash
+    sudo firewall-cmd --state
+    ```
+### Reload Firewalld rules
+    ```bash
+    sudo firewall-cmd --reload
+    ```
+### Add a new permanent rule
+    ```bash
+    sudo firewall-cmd --permanent --add-rule type=<type> chain=<chain> protocol=<protocol> port=<port> source=<source> destination=<destination> action=<action>
+    ```
+### Remove a permanent rule
+    ```bash
+    sudo firewall-cmd --permanent --remove-rule type=<type> chain=<chain> protocol=<protocol> port=<port> source=<source> destination=<destination> action=<action>
+    ```
+### Add an ICMP rule
+    ```bash
+    sudo firewall-cmd --permanent --add-icmp-rule type=block chain=input icmp-type=<icmp-type>
+    ```
+### Remove an ICMP rule
+    ```bash
+    sudo firewall-cmd --permanent --remove-icmp-rule type=block chain=input icmp-type=<icmp-type>
+    ```
+### Add a service
+    ```bash
+    sudo firewall-cmd --permanent --add-service=<service>
+    ```
+### Remove a service
+    ```bash
+    sudo firewall-cmd --permanent --remove-service=<service>
+    ```
+### Enable a zone
+    ```bash
+    sudo firewall-cmd --permanent --set-default-zone=<zone>
+    ```
+### Disable a zone
+    ```bash
+    sudo firewall-cmd --permanent --set-default-zone=drop
+    ```
+### View active zones
+    ```bash
+    sudo firewall-cmd --get-active-zones
+    ```
+### View allowed incoming traffic
+    ```bash
+    sudo firewall-cmd --list-ports --zone=<zone>
+    ```
+### View allowed outgoing traffic
+    ```bash
+    sudo firewall-cmd --list-ports --zone=<zone>--source type=external
+    ```
+### Add a source IP range
+    ```bash
+    sudo firewall-cmd --permanent --add-source-address=<address>
+    ```
+### Remove a source IP range
+    ```bash
+    sudo firewall-cmd --permanent --remove-source-address=<address>
+    ```
+### Add a destination IP range
+    ```bash
+    sudo firewall-cmd --permanent --add-destination-address=<address>
+    ```
+### Remove a destination IP range
+    ```bash
+    sudo firewall-cmd --permanent --remove-destination-address=<address>
+    ```
+### Allow Ping from specific IP
+    ```bash
+    sudo firewall-cmd --permanent --add-rich-rule rule family=ipv4 source address=192.168.1.1 type=icmp inspect_jump=allow
+    ```
+### Block Ping from all IPs
+    ```bash
+    sudo firewall-cmd --permanent --add-rich-rule rule family=ipv4 type=icmp inspect_jump=drop
+    ```
 ## Nginx
 <https://docs.nginx.com/>
 ```nginx
@@ -1856,6 +2024,60 @@ http {
 
 # Regex
 <https://regexr.com/>
-
+### Quantifiers
+| Quantifier | Description |
+|---|---|
+| `.` | Matches any single character |
+| `*` | Matches zero or more occurrences of the preceding character |
+| `+` | Matches one or more occurrences of the preceding character |
+| `?` | Matches zero or one occurrence of the preceding character |
+| `{n}` | Matches exactly `n` occurrences of the preceding character |
+| `{n,m}` | Matches at least `n` and at most `m` occurrences of the preceding character |
+### Character Classes
+| Pattern | Description |
+|---|---|
+| `[abc]` | Matches any of the characters `a`, `b`, or `c` |
+| `[^abc]` | Matches any character except `a`, `b`, or `c` |
+| `[0-9]` | Matches any digit (0-9) |
+| `[a-zA-Z]` | Matches any letter (a-z or A-Z) |
+| `\w` | Matches any alphanumeric character (a-z, A-Z, 0-9, `_`) |
+| `\s` | Matches any whitespace character (space, tab, newline, etc.) |
+### Escape Sequences
+| Escape Sequence | Description |
+|---|---|
+| `\d` | Matches a digit (0-9) |
+| `\D` | Matches any character that is not a digit (0-9) |
+| `\s` | Matches any whitespace character (space, tab, newline, etc.) |
+| `\S` | Matches any character that is not a whitespace character (space, tab, newline, etc.) |
+| `\w` | Matches any alphanumeric character (a-z, A-Z, 0-9, `_`) |
+| `\W` | Matches any character that is not an alphanumeric character (a-z, A-Z, 0-9, `_`) |
+### Anchors
+| Anchor | Description |
+|---|---|
+| `^` | Matches the beginning of a string |
+| `$` | Matches the end of a string |
+| `\A` | Matches the beginning of a string, including newlines |
+| `\Z` | Matches the end of a string, including newlines |
+### Grouping and Capturing
+| Pattern | Description |
+|---|---|
+| `()` | Groups the matched characters and captures them in a numbered group |
+| `\1` | Refers to the first captured group |
+| `\2` | Refers to the second captured group, and so on |
+### Metacharacters
+| Metacharacter | Description |
+|---|---|
+| `|` | Matches either of the two expressions |
+| `()` | Groups the matched characters and captures them in a numbered group |
+| `\1` | Refers to the first captured group |
+| `\2` | Refers to the second captured group, and so on |
+### Examples
+| Regex | Description |
+|---|---|
+| `\d{3}-\d{3}-\d{4}` | Matches a U.S. telephone number in the format ###-###-#### |
+| `[a-zA-Z]+` | Matches a word consisting of one or more letters |
+| `[^0-9a-zA-Z]` | Matches any character that is not a digit or a letter |
+| `(.*)\s(.*)` | Matches two words separated by one or more whitespace characters |
+| `(.*)\1` | Matches an exact repetition of the first word |
 # Fresh(Deno web framework)
 <https://fresh.deno.dev/docs/>
