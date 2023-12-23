@@ -1869,81 +1869,81 @@ end-to-end-tests:
 ## Firewalld
 <https://firewalld.org/documentation/>
 ### Check the status of Firewalld
-    ```bash
+```bash
     sudo firewall-cmd --state
-    ```
+```
 ### Reload Firewalld rules
-    ```bash
+```bash
     sudo firewall-cmd --reload
-    ```
+```
 ### Add a new permanent rule
-    ```bash
+```bash
     sudo firewall-cmd --permanent --add-rule type=<type> chain=<chain> protocol=<protocol> port=<port> source=<source> destination=<destination> action=<action>
-    ```
+```
 ### Remove a permanent rule
-    ```bash
+```bash
     sudo firewall-cmd --permanent --remove-rule type=<type> chain=<chain> protocol=<protocol> port=<port> source=<source> destination=<destination> action=<action>
-    ```
+```
 ### Add an ICMP rule
-    ```bash
+```bash
     sudo firewall-cmd --permanent --add-icmp-rule type=block chain=input icmp-type=<icmp-type>
-    ```
+```
 ### Remove an ICMP rule
-    ```bash
+```bash
     sudo firewall-cmd --permanent --remove-icmp-rule type=block chain=input icmp-type=<icmp-type>
-    ```
+```
 ### Add a service
-    ```bash
+```bash
     sudo firewall-cmd --permanent --add-service=<service>
-    ```
+```
 ### Remove a service
-    ```bash
+```bash
     sudo firewall-cmd --permanent --remove-service=<service>
-    ```
+```
 ### Enable a zone
-    ```bash
+```bash
     sudo firewall-cmd --permanent --set-default-zone=<zone>
-    ```
+```
 ### Disable a zone
-    ```bash
+```bash
     sudo firewall-cmd --permanent --set-default-zone=drop
-    ```
+```
 ### View active zones
-    ```bash
+```bash
     sudo firewall-cmd --get-active-zones
-    ```
+```
 ### View allowed incoming traffic
-    ```bash
+```bash
     sudo firewall-cmd --list-ports --zone=<zone>
-    ```
+```
 ### View allowed outgoing traffic
-    ```bash
+```bash
     sudo firewall-cmd --list-ports --zone=<zone>--source type=external
-    ```
+```
 ### Add a source IP range
-    ```bash
+```bash
     sudo firewall-cmd --permanent --add-source-address=<address>
-    ```
+```
 ### Remove a source IP range
-    ```bash
+```bash
     sudo firewall-cmd --permanent --remove-source-address=<address>
-    ```
+```
 ### Add a destination IP range
-    ```bash
+```bash
     sudo firewall-cmd --permanent --add-destination-address=<address>
-    ```
+```
 ### Remove a destination IP range
-    ```bash
+```bash
     sudo firewall-cmd --permanent --remove-destination-address=<address>
-    ```
+```
 ### Allow Ping from specific IP
-    ```bash
+```bash
     sudo firewall-cmd --permanent --add-rich-rule rule family=ipv4 source address=192.168.1.1 type=icmp inspect_jump=allow
-    ```
+```
 ### Block Ping from all IPs
-    ```bash
+```bash
     sudo firewall-cmd --permanent --add-rich-rule rule family=ipv4 type=icmp inspect_jump=drop
-    ```
+```
 ## Nginx
 <https://docs.nginx.com/>
 ```nginx
