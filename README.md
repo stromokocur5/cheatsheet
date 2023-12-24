@@ -6,6 +6,7 @@
    - [Haskell](#haskell)
    - [C](#c)
 2. [Devops](#devops)
+   - [Postgres](#postgres)
    - [Docker](#docker)
    - [Kubernetes](#kubernetes)
    - [Ansible](#ansible)
@@ -1384,6 +1385,9 @@ SELECT <column1_name>, <column2_name>
 FROM <table_name>
 WHERE <condition>;
 
+SELECT <column1_name> AS something_else
+FROM <table_name>;
+
 SELECT * FROM <table_name>
 ORDER BY <column_name> ASC/DESC;
 ```
@@ -1407,12 +1411,33 @@ SELECT AVG(<column_name>) FROM <table_name>;
 
 SELECT MIN(<column_name>), MAX(<column_name>) FROM <table_name>;
 ```
+### Joins
+```sql
+SELECT *
+FROM table1
+INNER JOIN table2 ON table1.id = table2.id;
+
+SELECT *
+FROM table1
+LEFT JOIN table2 ON table1.id = table2.id;
+
+SELECT *
+FROM table1
+RIGHT JOIN table2 ON table1.id = table2.id;
+
+SELECT *
+FROM table1
+NATURAL JOIN table2;
+
+SELECT *
+FROM table1
+FULL OUTER JOIN table2 ON table1.id = table2.id;
+```
 ### Connecting to PostgreSQL
 ```sql
 psql -h <hostname> -p <port> -U <username> -d <database>
 ```
 ### Navigating Database Objects
-
 ```sql
 \d <table_name>: Describe the table structure
 \d+ <table_name>: Describe the table structure in detail
