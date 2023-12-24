@@ -1401,6 +1401,15 @@ WHERE <column_name> BETWEEN <value1> AND <value2>;
 
 WHERE <column_name> LIKE '%<pattern>%';
 ```
+### Updating data
+```sql
+UPDATE table_name
+SET column_name = 'new_value'
+WHERE condition;
+
+DELETE FROM table_name
+WHERE condition;
+```
 ### Aggregating Data
 ```sql
 SELECT COUNT(*) FROM <table_name>;
@@ -1433,9 +1442,78 @@ SELECT *
 FROM table1
 FULL OUTER JOIN table2 ON table1.id = table2.id;
 ```
+### Transactions
+```sql
+BEGIN;
+
+COMMIT;
+
+ROLLBACK;
+```
+### Functions
+```sql
+CREATE FUNCTION function_name(parameter1 data_type, parameter2 data_type)
+RETURNS return_type AS
+$$
+DECLARE
+BEGIN
+END;
+$$ LANGUAGE plpgsql;
+
+SELECT function_name(argument1, argument2);
+```
+### Advanced data types
+```sql
+CREATE TABLE array_table (
+  id SERIAL PRIMARY KEY,
+  values INTEGER[]
+);
+
+CREATE TABLE hstore_table (
+  id SERIAL PRIMARY KEY,
+  properties HSTORE
+);
+
+CREATE TABLE uuid_table (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  data TEXT
+);
+```
+### Foreign keys
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  content TEXT,
+  user_id INTEGER REFERENCES users (id),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+### Roles and permissions
+```sql
+CREATE ROLE <role_name> WITH LOGIN PASSWORD 'password';
+
+GRANT SELECT, INSERT, UPDATE ON <table_name> TO <role_name>;
+
+REVOKE SELECT, INSERT, UPDATE ON <table_name> FROM <role_name>;
+```
 ### Connecting to PostgreSQL
 ```sql
 psql -h <hostname> -p <port> -U <username> -d <database>
+```
+### Backing up and restoring
+```sql
+-- Backup
+pg_dump -h <hostname> -U <username> -d <database> -f backup_file.sql
+
+-- Restore
+psql -h <hostname> -U <username> -d <database> -f backup_file.sql
 ```
 ### Navigating Database Objects
 ```sql
