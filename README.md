@@ -2182,7 +2182,10 @@ http {
 | `[^0-9a-zA-Z]` | Matches any character that is not a digit or a letter |
 | `(.*)\s(.*)` | Matches two words separated by one or more whitespace characters |
 | `(.*)\1` | Matches an exact repetition of the first word |
-# *nix
+# *NIX
+<https://docs.freebsd.org>
+<https://netbsd.org/docs>
+<https://docs.fedoraproject.org>
 ## Commands
 ```sh
 cd
