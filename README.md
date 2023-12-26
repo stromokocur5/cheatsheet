@@ -2194,6 +2194,7 @@ cp
 rm
 mkdir
 rmdir
+ln
 tar
 gzip
 xz
