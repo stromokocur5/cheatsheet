@@ -2305,7 +2305,7 @@ http {
 <https://docs.freebsd.org>
 <https://netbsd.org/docs>
 <https://docs.fedoraproject.org>
-## Commands
+## Commands/Programs
 ```sh
 cd
 pwd
@@ -2325,16 +2325,24 @@ type
 history
 env
 
+make
+
+ffmpeg
+pandoc
+magick
+
+wine
+
 su
 sudo/doas
 chmod
 chown
-useradd
-userdel
-usermod
-groupadd
-groupdel
-groupmod
+useradd/adduser
+userdel/rmuser
+usermod/chpass
+groupadd/pw groupadd
+groupdel/pw groupdel
+groupmod/pw groupmod
 groups
 passwd
 
@@ -2367,8 +2375,6 @@ df
 du
 
 man
-rsync
-ssh
 systemctl
 ps
 top
@@ -2378,12 +2384,21 @@ pkill
 date
 uptime
 w
+id
 uname
 free
 whoami
+chsh
+
+rsync
+ssh
+sshfs
 hostname
 ip/ifconfig
 curl
+ping
+dig
+host
 
 command 1> out
 command 2> err
