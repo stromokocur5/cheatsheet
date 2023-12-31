@@ -2327,6 +2327,8 @@ env
 
 make
 
+gpg
+
 ffmpeg
 pandoc
 magick
@@ -2348,6 +2350,7 @@ passwd
 
 echo
 cat
+strings
 tee
 grep
 sed
@@ -2395,10 +2398,12 @@ ssh
 sshfs
 hostname
 ip/ifconfig
+nmcli
 curl
 ping
 dig
 host
+nc
 
 command 1> out
 command 2> err
