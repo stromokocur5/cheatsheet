@@ -7,6 +7,7 @@
    - [C](#c)
 2. [Devops](#devops)
    - [Postgres](#postgres)
+   - [Redis](#redis)
    - [Docker](#docker)
    - [Kubernetes](#kubernetes)
    - [Ansible](#ansible)
@@ -1640,8 +1641,59 @@ psql -h <hostname> -U <username> -d <database> -f backup_file.sql
 \d+ <table_name>: Describe the table structure in detail
 \d schema_name.table_name: Describe the table structure in a specific schema
 ```
+## Redis
+<https://redis.io/docs>
+| Data Type | Command | Description |
+|---|---|---|
+| **Keys** | `EXISTS key` | Checks if the key exists |
+|   | `GET key` | Retrieves the value of the key |
+|   | `SET key value` | Sets the value of the key |
+|   | `DEL key` | Deletes the key |
+|   | `KEYS pattern` | Returns all keys matching the pattern |
+|   | `EXPIRE key seconds` | Sets an expiration time for the key |
+|   | `TTL key` | Returns the remaining time to live of the key in seconds |
+
+| **Hashes** | Command | Description |
+|---|---|---|
+| `HSET key field value` | Sets the value of the field in the hash |
+| `HGET key field` | Retrieves the value of the field in the hash |
+| `HDEL key field` | Deletes the field from the hash |
+| `HKEYS key` | Returns all fields in the hash |
+| `HVALS key` | Returns all values in the hash |
+| `HLEN key` | Returns the number of fields in the hash |
+
+| **Lists** | Command | Description |
+|---|---|---|
+| `LPUSH key value1 [value2 ...]` | Inserts one or more values at the beginning of the list |
+| `RPUSH key value1 [value2 ...]` | Inserts one or more values at the end of the list |
+| `LRANGE key start stop` | Retrieves the specified range of elements in the list |
+| `LLEN key` | Returns the length of the list |
+| `LINDEX key index` | Retrieves the element at the specified index |
+| `LTRIM key start stop` | Trims the list to the specified range |
+
+| **Sets** | Command | Description |
+|---|---|---|
+| `SADD key member1 [member2 ...]` | Adds one or more members to the set |
+| `SMEMBERS key` | Retrieves all members of the set |
+| `SISMEMBER key member` | Checks if the member is exists in the set |
+| `SCARD key` | Returns the number of elements in the set |
+| `SRANDMEMBER key [count]` | Retrieves a random member from the set (optionally, up to the specified count) |
+| `SDIFF key1 key2` | Returns the difference of sets |
+| `SUNION key1 key2` | Returns the union of sets |
+| `SINTER key1 key2` | Returns the intersection of sets |
+
+| **Sorted Sets** | Command | Description |
+|---|---|---|
+| `ZADD key score member` | Adds a member with the specified score to the sorted set |
+| `ZRANGE key start stop [WITHSCORES]` | Retrieves the specified range of elements in the sorted set (optionally, with scores) |
+| `ZSCORE key member` | Retrieves the score of the member |
+| `ZCARD key` | Returns the number of elements in the sorted set |
+| `ZRANK key member` | Returns the rank of the member (0-based) |
+| `ZREVRANK key member` | Returns the reverse rank of the member (0-based, from the highest score to the lowest) |
+| `ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]` | Retrieves the specified range of elements in the sorted set based on their scores (optionally, with scores) |
+| `ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]` | Retrieves the specified range of elements in the sorted set inverted by their scores (optionally, with scores)
 ## Docker 
-<https://docs.docker.com/>
+<https://docs.docker.com>
 ### Dockerfile
 ```dockerfile
 FROM image:version AS builder
