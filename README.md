@@ -2407,6 +2407,7 @@ tee
 grep
 sed
 awk
+tr
 head
 tail
 sort
