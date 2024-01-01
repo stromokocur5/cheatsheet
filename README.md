@@ -1643,9 +1643,9 @@ psql -h <hostname> -U <username> -d <database> -f backup_file.sql
 ```
 ## Redis
 <https://redis.io/docs>
-| Data Type | Command | Description |
+| **Keys** | Command | Description |
 |---|---|---|
-| **Keys** | `EXISTS key` | Checks if the key exists |
+|   | `EXISTS key` | Checks if the key exists |
 |   | `GET key` | Retrieves the value of the key |
 |   | `SET key value` | Sets the value of the key |
 |   | `DEL key` | Deletes the key |
