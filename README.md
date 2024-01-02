@@ -2440,6 +2440,7 @@ kill
 pkill
 date
 uptime
+nice
 w
 id
 uname
