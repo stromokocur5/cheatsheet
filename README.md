@@ -474,6 +474,113 @@ fn builder_test() {
     assert_eq!(foo, foo_from_builder);
 }
 ```
+### Macros
+```rs
+// Definition of common identifiers used in Rust macros
+// item — an item, like a function, struct, module, etc.
+// block — a block (i.e., a block of statements and/or an expression, surrounded by braces)
+// stmt — a statement
+// pat — a pattern
+// expr — an expression
+// ty — a type
+// ident — an identifier
+// path — a path (e.g., foo, ::std::mem::replace, transmute::<_, int>, …)
+// meta — a meta item; the things that go inside #[...] and #![...] attributes
+// tt — a single token tree
+// vis — a possibly empty Visibility qualifier
+
+// Simple macro for addition with one or two arguments
+macro_rules! add {
+    ($a:expr) => {
+        $a
+    };
+    ($a:expr, $b:expr) => {
+        { $a + $b }
+    };
+}
+
+// Macro with repetition and separator for addition
+macro_rules! add_as {
+    ($($a:expr),* $(,)*) => {
+        { 0 $(+ $a)* }
+    };
+}
+
+// Recursive macro for summing up an arbitrary number of arguments
+macro_rules! add_recursive {
+    ($a:expr) => {
+        $a
+    };
+    ($a:expr, $b:expr) => {
+        { $a + $b }
+    };
+    ($a:expr, $($b:expr)*) => {
+        { $a + add_recursive!($($b)*) }
+    };
+}
+
+// Macro for handling Result and returning in case of an error
+macro_rules! ok_or_return {
+    ($a:ident($($b:tt)*)) => {
+        {
+            match $a($($b)*) {
+                Ok(value) => value,
+                Err(err) => { return Err(err); }
+            }
+        }
+    };
+}
+
+fn some_work(i: i64, j: i64) -> Result<(i64, i64), String> {
+    if i + j > 2 {
+        Ok((i, j))
+    } else {
+        Err("error".to_owned())
+    }
+}
+
+// Macro for creating a public struct with specified fields
+macro_rules! make_public_struct {
+    (
+        $(#[$meta:meta])*
+        $vis:vis struct $struct_name:ident {
+            $(
+                $(#[$field_meta:meta])*
+                $field_vis:vis $field_name:ident : $field_type:ty
+            ),* $(,)*
+        }
+    ) => {
+        $(#[$meta])*
+        pub struct $struct_name {
+            $(
+                $(#[$field_meta])*
+                pub $field_name: $field_type,
+            )*
+        }
+    };
+}
+
+// Main function showcasing the use of macros
+fn main() {
+    let x = 0;
+
+    println!("Addition: {}", add!(1, 2));
+    println!("Addition with repetition: {}", add_as!(1, 2, 3, 4));
+    println!("Recursive Addition: {}", add_recursive!(1, 2, 3, 4));
+
+    ok_or_return!(some_work(1, 4));
+    ok_or_return!(some_work(1, 0));
+
+    make_public_struct! {
+        #[derive(Debug)]
+        struct Name {
+            n: i64,
+            t: i64,
+            g: i64,
+        }
+    }
+}
+```
 ## Go 
 <https://go.dev/doc/>
 <https://gobyexample.com/>
