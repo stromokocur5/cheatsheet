@@ -2427,6 +2427,7 @@ fdisk
 parted
 mkfs
 fsck
+lsblk
 df
 du
 
@@ -2445,6 +2446,7 @@ uname
 free
 whoami
 chsh
+dmesg
 
 rsync
 ssh
