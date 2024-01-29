@@ -2555,6 +2555,10 @@ free
 whoami
 chsh
 dmesg
+jobs
+fg
+bg
+watch
 
 rsync
 ssh
@@ -2574,7 +2578,7 @@ tee lol <<EOF
     lol 
 EOF
 
-for i in $(seq 1 4);do echo $i;done
+for i in $(seq 1 4);do echo $i done;
 
 [[ 1 < 2]] && echo 1 || echo 2 
 ```
