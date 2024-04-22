@@ -2509,6 +2509,7 @@ passwd
 
 echo
 cat
+read
 strings
 tee
 grep
@@ -2578,7 +2579,13 @@ tee lol <<EOF
     lol 
 EOF
 
-for i in $(seq 1 4);do echo $i done;
+for i in $(seq 1 4);do
+echo $i 
+done
+
+while true;do
+echo 1 
+done
 
 [[ 1 < 2]] && echo 1 || echo 2 
 ```
