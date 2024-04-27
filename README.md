@@ -18,7 +18,7 @@
    - [Nginx](#nginx)
    - [Opentofu(Terraform)](#opentofu-terraform)
 3. [Regex](#regex)
-4. [Fresh(Deno web framework)](#fresh-deno-web-framework)
+4. [*Nix](#nix)
 # Programming
 <https://cheat.sh/>
 ## Rust
@@ -2538,6 +2538,7 @@ fsck
 lsblk
 df
 du
+sgdisk
 
 man
 systemctl
@@ -2589,5 +2590,3 @@ done
 
 [[ 1 < 2]] && echo 1 || echo 2 
 ```
-# Fresh(Deno web framework)
-<https://fresh.deno.dev/docs/>
