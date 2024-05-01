@@ -2561,6 +2561,8 @@ jobs
 fg
 bg
 watch
+wait
+sleep
 
 rsync
 ssh
