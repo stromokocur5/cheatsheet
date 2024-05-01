@@ -2573,6 +2573,7 @@ ping
 dig
 host
 nc
+bettercap
 
 command 1> out
 command 2> err
