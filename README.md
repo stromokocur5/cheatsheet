@@ -1669,6 +1669,20 @@ SELECT *
 FROM table1
 FULL OUTER JOIN table2 ON table1.id = table2.id;
 ```
+### Conditions
+```sql
+CASE x
+WHEN a THEN ..
+WHEN b THEN ..
+...
+ELSE
+END
+
+IF (expr)
+THEN...
+ELSE...
+END
+```
 ### Transactions
 ```sql
 BEGIN;
