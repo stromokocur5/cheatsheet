@@ -1617,6 +1617,17 @@ FROM <table_name>;
 
 SELECT * FROM <table_name>
 ORDER BY <column_name> ASC/DESC;
+
+select EmployeeId, sum(amount)
+from Sales
+group by Employee
+having sum(amount) > 20000;
+
+select EmployeeId, sum(amount)
+from Sales
+group by Employee
+where EmployeeId in (
+    select max(EmployeeId) from Employees);
 ```
 ### Filtering Data
 ```sql
